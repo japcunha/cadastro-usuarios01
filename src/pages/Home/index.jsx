@@ -16,6 +16,7 @@ function Home() {
     setUsers(usersFromApi.data)
 
   }
+
   async function createUsers() {
     await api.post('./usuarios', {
       name: inputName.current.value,
@@ -23,10 +24,20 @@ function Home() {
       email: inputEmail.current.value
     })
 
+    getUsers()
   }
+
+  async function deleteUsers(id) {
+    await api.delete(`/usuarios/${id}`)
+
+    getUsers()
+  }
+
   useEffect(() => {
+
     getUsers()
   }, [])
+
   return (
     <div className='container'>
       <form>
@@ -45,13 +56,14 @@ function Home() {
             <p>Email: <span>{user.email}</span> </p>
           </div>
 
-          <button>
+          <button onClick={() => deleteUsers(user.id)}>
             <img src={Trash} alt="trash" />
           </button>
         </div>
-      ))}
+      ))
+      }
 
-    </div>
+    </div >
   )
 }
 
